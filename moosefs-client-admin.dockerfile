@@ -20,5 +20,7 @@ COPY --from=gui /usr/bin/mfscli /usr/bin/mfscli
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN echo "alias ll='ls -alF'\nalias la='ls -A'\nalias l='ls -CF'" >> /root/.bashrc
+
 EXPOSE 7681
 ENTRYPOINT ["/entrypoint.sh"]
