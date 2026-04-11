@@ -1,4 +1,4 @@
-ARG MFS_TAG="4.58.3"
+ARG MFS_TAG="4.58.4"
 ARG TTYD_VERSION="1.7.7"
 
 # Extract mfscli from the gui image
