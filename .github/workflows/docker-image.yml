@@ -26,7 +26,7 @@ jobs:
       - name: Extract version from Dockerfile
         id: version
         run: |
-          MFS_TAG=$(grep -oP '^ARG MFS_TAG="v\K[^"]+' moosefs-client-admin.dockerfile)
+          MFS_TAG=$(grep -oP '^ARG MFS_TAG="\K[^"]+' moosefs-client-admin.dockerfile)
           echo "tag=${MFS_TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Extract metadata

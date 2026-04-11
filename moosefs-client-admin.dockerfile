@@ -1,4 +1,4 @@
-ARG MFS_TAG="v4.58.3"
+ARG MFS_TAG="4.58.3"
 
 # Extract mfscli from the gui image
 FROM moosefs/gui:${MFS_TAG} AS gui
