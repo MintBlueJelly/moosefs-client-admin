@@ -72,6 +72,43 @@ mfsfilerepair /mnt/moosefs/<path>
 
 Output shows how many chunks were repaired (zero-filled) and how many were erased.
 
+#### Purging a trashed file
+
+Deleting a file via `rm` only moves it to the MooseFS trash. Trashed files are purged after their trash retention expires, but the master continues tracking their missing chunks until actual purge. If `mfscli -H mfsmaster -SMF` still reports a file with a `./TRASH (...)` path, the file is in the trash.
+
+To force-purge, mount the meta filesystem:
+
+```bash
+mkdir -p /mnt/mfsmeta
+mfsmount -m /mnt/mfsmeta -H mfsmaster
+```
+
+Find the file in the trash:
+
+```bash
+find /mnt/mfsmeta/trash -name "*<filename>*"
+```
+
+Permanently delete:
+
+```bash
+rm /mnt/mfsmeta/trash/<subdir>/<filename>
+```
+
+Or to restore instead of delete:
+
+```bash
+mv /mnt/mfsmeta/trash/<subdir>/<filename> /mnt/mfsmeta/trash/undel/
+```
+
+To bulk-purge **all** trashed files at once (preserves the structural `undel/` directories):
+
+```bash
+find /mnt/mfsmeta/trash -mindepth 2 -not -path '*/undel/*' -delete
+```
+
+After purging, the missing chunk will clear from the dashboard after the next filesystem self-check loop completes.
+
 ### 3. Undergoal and Endangered Chunks
 
 Chunks below their replication goal or with only one surviving copy:
